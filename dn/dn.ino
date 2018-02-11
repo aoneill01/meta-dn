@@ -1,10 +1,11 @@
 #include <Gamebuino-Meta.h>
 #include "sprites.h"
+#include "player.h"
 
 Color palette[16];
 Color cycle[6];
 
-int playerX, playerY;
+Player player;
 
 void setup() {
   // Initialize Gamebuino library
@@ -33,9 +34,6 @@ void setup() {
   palette[8] = BLACK; // Player
   palette[14] = WHITE;
   palette[15] = BLACK;
-
-  playerX = 20;
-  playerY = 20;
 }
 
 void loop() {
@@ -43,39 +41,26 @@ void loop() {
   if (gb.update()) {
     drawCpu();
     
-    for (int i = 0; i < 6; i++) {
-      palette[5 - i] = cycle[((gb.frameCount >> 1) + i) % 6];
-    }
+    cycleBackgroundColors();
 
     clearPlayer();
 
-    player.setFrame(0);
-    if (gb.buttons.repeat(Button::right, 0)) {
-      playerX++;
-      player.setFrame(3 + ((gb.frameCount >> 1) % 4));
-    }
-    if (gb.buttons.repeat(Button::left, 0)) {
-      playerX--;
-      player.setFrame(10 + ((gb.frameCount >> 1) % 4));
-    }
-    if (gb.buttons.repeat(Button::up, 0)) {
-      playerY--;
-      player.setFrame(2);
-    }
-    if (gb.buttons.repeat(Button::down, 0)) {
-      playerY++;
-      player.setFrame(2);
-    }
+    player.update();
+    player.draw();
     
-    gb.display.drawImage(playerX, playerY, player);
-
     // recordFrame();
   }
 }
 
+void cycleBackgroundColors() {
+  for (int i = 0; i < 6; i++) {
+    palette[5 - i] = cycle[((gb.frameCount >> 1) + i) % 6];
+  }
+}
+
 void clearPlayer() {
-  int gridX = playerX / 4;
-  int gridY = playerY / 4;
+  int gridX = player.getX() / 4;
+  int gridY = player.getY() / 4;
 
   for (int x = 0; x < 2; x++) {
     for (int y = 0; y < 2; y++) {

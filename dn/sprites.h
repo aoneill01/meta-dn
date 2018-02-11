@@ -4,6 +4,6 @@
 #define SPRITES_H
 
 extern Image background;
-extern Image player;
+extern Image playerSprite;
 
 #endif

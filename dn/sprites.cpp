@@ -1344,4 +1344,4 @@ const uint8_t playerData[] = {4, 4, 14, 0, 1, 0x00, 1
 , 0x08, 0x88
 , 0x80, 0x00};
 
-Image player = Image(playerData);
+Image playerSprite = Image(playerData);
