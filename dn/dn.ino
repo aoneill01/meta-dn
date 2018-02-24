@@ -1,11 +1,13 @@
 #include <Gamebuino-Meta.h>
 #include "sprites.h"
 #include "player.h"
+#include "level.h"
 
 Color palette[16];
 Color cycle[6];
 
 Player player;
+Level level;
 
 void setup() {
   // Initialize Gamebuino library
@@ -34,22 +36,24 @@ void setup() {
   palette[8] = BLACK; // Player
   palette[14] = WHITE;
   palette[15] = BLACK;
+
+  level.draw();
 }
 
 void loop() {
   // Ready to update next frame?
-  if (gb.update()) {
-    drawCpu();
-    
-    cycleBackgroundColors();
+  while (!gb.update());
+  
+  drawCpu();
+  
+  cycleBackgroundColors();
 
-    clearPlayer();
+  clearPlayer();
 
-    player.update();
-    player.draw();
-    
-    // recordFrame();
-  }
+  player.update(level);
+  player.draw();
+  
+  // recordFrame();
 }
 
 void cycleBackgroundColors() {
@@ -66,6 +70,8 @@ void clearPlayer() {
     for (int y = 0; y < 2; y++) {
       background.setFrame((gridY + y) * (160 / 4) + gridX + x);
       gb.display.drawImage((gridX + x) * 4, (gridY + y) * 4, background);
+      
+      level.drawAt(gridX + x, gridY + y);
     }
   }
 }
