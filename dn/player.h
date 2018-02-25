@@ -6,7 +6,7 @@
 class Player {
   int x, y;
   int velX, velY;
-  bool onGround, facingLeft;
+  bool touchingGround, facingLeft, touchingWall;
 
   void internalUpdate(Level &l);
 public:

@@ -41,12 +41,9 @@ const byte tiles[LEVEL_ROWS][LEVEL_COLS] = {
 };
 
 void Level::draw() {
-  gb.display.setColor((ColorIndex)15);
   for (int row = 0; row < LEVEL_ROWS; row++) {
     for (int col = 0; col < LEVEL_COLS; col++) {
-      if (tiles[row][col] != 0) {
-        gb.display.fillRect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-      }
+      drawAt(col, row);
     }
   }
 }
@@ -54,7 +51,7 @@ void Level::draw() {
 void Level::drawAt(int gridX, int gridY) {
   if (gridX >= 0 && gridX < LEVEL_COLS && gridY >= 0 && gridY < LEVEL_ROWS && tiles[gridY][gridX] != 0) {
     gb.display.setColor((ColorIndex)15);
-    gb.display.fillRect(gridX * TILE_SIZE, gridY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+    gb.display.drawRect(gridX * TILE_SIZE, gridY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
 }
 

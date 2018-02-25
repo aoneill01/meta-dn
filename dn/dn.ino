@@ -35,7 +35,7 @@ void setup() {
   palette[7] = GRAY;
   palette[8] = BLACK; // Player
   palette[14] = WHITE;
-  palette[15] = BLACK;
+  palette[15] = BEIGE;
 
   level.draw();
 }
