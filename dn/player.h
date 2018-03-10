@@ -10,7 +10,7 @@ class Player {
 
   void internalUpdate(Level &l);
 public:
-  void move(int x, int y);
+  void resetPosition();
   int getX(); 
   int getY(); 
   void draw();

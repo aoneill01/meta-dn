@@ -4,13 +4,13 @@
 
 #define PRECISION 6
 #define GRAVITY 0x5
-#define ALMOST_ONE 0b111111;
+#define ALMOST_ONE 0b111111
 
 #define velocityInPixelsPerFrame(val) (val << PRECISION >> 1)
 
-void Player::move(int x, int y) {
-  this->x = x;
-  this->y = y;
+void Player::resetPosition() {
+  x = 80 << PRECISION;
+  y = 0;
 }
 
 int Player::getX() {
@@ -52,6 +52,10 @@ void Player::internalUpdate(Level &level) {
   touchingWall = false;
   x += velX;
   if (level.collisionAt(x >> PRECISION, y >> PRECISION, getWidth(), getHeight())) {
+    if (level.lavaAt(x >> PRECISION, y >> PRECISION, getWidth(), getHeight())) {
+      resetPosition();
+      return;
+    }
     int backOne = velX > 0 ? velocityInPixelsPerFrame(-1) : velocityInPixelsPerFrame(1);
     touchingWall = gb.buttons.repeat(Button::right, 0) || gb.buttons.repeat(Button::left, 0);
     do {
@@ -61,8 +65,14 @@ void Player::internalUpdate(Level &level) {
   }
 
   velY += touchingWall && velY > 0 ? GRAVITY >> 2 : GRAVITY;
+  if (velY > 4 * ALMOST_ONE) velY = 4 * ALMOST_ONE;
+  if (velY < 4 * -ALMOST_ONE) velY = 4 * -ALMOST_ONE;
   y += velY;
   if (level.collisionAt(x >> PRECISION, y >> PRECISION, getWidth(), getHeight())) {
+    if (level.lavaAt(x >> PRECISION, y >> PRECISION, getWidth(), getHeight())) {
+      resetPosition();
+      return;
+    }
     int backOne = velY > 0 ? velocityInPixelsPerFrame(-1) : velocityInPixelsPerFrame(1);
     velY = 0;
     y = y | ALMOST_ONE;
@@ -72,7 +82,7 @@ void Player::internalUpdate(Level &level) {
     while(level.collisionAt(x >> PRECISION, y >> PRECISION, getWidth(), getHeight()));
   }
 
-  touchingGround = level.collisionAt(x >> PRECISION, (y >> PRECISION) + 1, getWidth(), getHeight());
+  touchingGround = level.collisionAt(x >> PRECISION, ((y  + 1) >> PRECISION), getWidth(), getHeight());
   if (touchingGround) {
     velY = 0;
   }

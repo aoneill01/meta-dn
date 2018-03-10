@@ -34,8 +34,11 @@ void setup() {
   palette[6] = WHITE;
   palette[7] = GRAY;
   palette[8] = BLACK; // Player
+  palette[13] = RED;
   palette[14] = WHITE;
   palette[15] = BEIGE;
+
+  player.resetPosition();
 
   level.draw();
 }
@@ -78,10 +81,11 @@ void clearPlayer() {
 
 void drawCpu() {
   gb.display.setColor((ColorIndex)14);
-  gb.display.fillRect(1, 1, 16, 5);
+  gb.display.fillRect(1, 1, 16, 6);
     
   gb.display.setCursor(1, 1);
   gb.display.setColor((ColorIndex)15);
+
   gb.display.print(gb.getCpuLoad());
   gb.display.print('%');
 }
