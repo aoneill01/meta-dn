@@ -4,6 +4,7 @@
 
 void Main()
 {
+	/*
 	Bitmap bg = LoadBitmap("bg.png");
 	var bgPaletteMap = new Dictionary<int, int>() {
 		{ Color.Magenta.ToArgb(), 0 },
@@ -21,13 +22,13 @@ void Main()
 			ProcessBitmap(bg, bgPaletteMap, offsetX, offsetY, 4, 4);	
 		}
 	}
+	*/
 	
-	/*
 	ProcessBitmap(LoadBitmap("player.png"), new Dictionary<int, int>() {
 		{ Color.White.ToArgb(), 0},
-		{ Color.Black.ToArgb(), 8}
+		{ Color.Black.ToArgb(), 6}
 	});
-	*/
+	
 }
 
 // Define other methods and classes here

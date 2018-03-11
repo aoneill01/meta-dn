@@ -3,8 +3,25 @@
 #include "player.h"
 #include "level.h"
 
-Color palette[16];
-Color cycle[6];
+Color palette[16] = {
+    Color::black,
+    Color::darkblue,
+    Color::purple,
+    Color::green,
+    Color::brown,
+    Color::darkgray,
+    Color::gray,
+    Color::white,
+    Color::red,
+    Color::orange,
+    Color::yellow,
+    Color::lightgreen,
+    Color::lightblue,
+    Color::blue,
+    Color::pink,
+    Color::beige,
+  };
+//Color cycle[6];
 
 Player player;
 Level level;
@@ -13,8 +30,12 @@ void setup() {
   // Initialize Gamebuino library
   gb.begin();
 
+  gb.display.drawImage(0, 0, bg001);
+
+  /*
   int offsetX = 0;
   int offsetY = 0;
+
   for (int i = 0; i < (160 * 128) / 4; i++) {
     background.setFrame(i);
     gb.display.drawImage(offsetX, offsetY, background);
@@ -24,9 +45,10 @@ void setup() {
       offsetY += 4;
     }
   }
-
+  */
+  
   gb.display.colorIndex = palette;
-
+  /*
   for (int i = 0; i < 6; i++) {
     cycle[i] = hsvToRgb565(128, 5, (255 - 15) + i * 3);
   }
@@ -37,10 +59,10 @@ void setup() {
   palette[13] = RED;
   palette[14] = WHITE;
   palette[15] = BEIGE;
-
+  */
   player.resetPosition();
 
-  level.draw();
+  // level.draw();
 }
 
 void loop() {
@@ -49,20 +71,35 @@ void loop() {
   
   drawCpu();
   
-  cycleBackgroundColors();
+  // cycleBackgroundColors();
+  cycleLavaColor();
 
   clearPlayer();
 
   player.update(level);
   player.draw();
   
-  // recordFrame();
+  //recordFrame();
 }
-
+/*
 void cycleBackgroundColors() {
   for (int i = 0; i < 6; i++) {
     palette[5 - i] = cycle[((gb.frameCount >> 1) + i) % 6];
   }
+
+  // Temporary lava effect
+  int tmp = gb.frameCount % 10;
+  if (tmp >= 5) tmp = -tmp + 10;
+  tmp = 0b11111 - tmp;
+  palette[13] = (Color)(tmp << 11);
+}
+*/
+void cycleLavaColor() {
+  // Temporary lava effect
+  int tmp = gb.frameCount % 10;
+  if (tmp >= 5) tmp = -tmp + 10;
+  tmp = 0b11111 - tmp;
+  palette[8] = (Color)(tmp << 11);
 }
 
 void clearPlayer() {
@@ -71,10 +108,14 @@ void clearPlayer() {
 
   for (int x = 0; x < 2; x++) {
     for (int y = 0; y < 2; y++) {
+      // void drawImage(int16_t x, int16_t y, Image& img, int16_t x2, int16_t y2, int16_t w2, int16_t h2);
+      gb.display.drawImage((gridX + x) * 4, (gridY + y) * 4, bg001, (gridX + x) * 4, (gridY + y) * 4, 4, 4);
+      /*
       background.setFrame((gridY + y) * (160 / 4) + gridX + x);
       gb.display.drawImage((gridX + x) * 4, (gridY + y) * 4, background);
       
       level.drawAt(gridX + x, gridY + y);
+      */
     }
   }
 }

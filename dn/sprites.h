@@ -6,4 +6,6 @@
 extern Image background;
 extern Image playerSprite;
 
+extern Image bg001;
+
 #endif
