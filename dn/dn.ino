@@ -21,7 +21,6 @@ Color palette[16] = {
     Color::pink,
     Color::beige,
   };
-//Color cycle[6];
 
 Player player;
 Level level;
@@ -32,37 +31,10 @@ void setup() {
 
   gb.display.drawImage(0, 0, bg001);
 
-  /*
-  int offsetX = 0;
-  int offsetY = 0;
-
-  for (int i = 0; i < (160 * 128) / 4; i++) {
-    background.setFrame(i);
-    gb.display.drawImage(offsetX, offsetY, background);
-    offsetX += 4; 
-    if (offsetX >= 160) {
-      offsetX = 0;
-      offsetY += 4;
-    }
-  }
-  */
-  
+  // Set color palette so that it can be modified
   gb.display.colorIndex = palette;
-  /*
-  for (int i = 0; i < 6; i++) {
-    cycle[i] = hsvToRgb565(128, 5, (255 - 15) + i * 3);
-  }
 
-  palette[6] = WHITE;
-  palette[7] = GRAY;
-  palette[8] = BLACK; // Player
-  palette[13] = RED;
-  palette[14] = WHITE;
-  palette[15] = BEIGE;
-  */
   player.resetPosition();
-
-  // level.draw();
 }
 
 void loop() {
@@ -71,7 +43,6 @@ void loop() {
   
   drawCpu();
   
-  // cycleBackgroundColors();
   cycleLavaColor();
 
   clearPlayer();
@@ -81,19 +52,7 @@ void loop() {
   
   //recordFrame();
 }
-/*
-void cycleBackgroundColors() {
-  for (int i = 0; i < 6; i++) {
-    palette[5 - i] = cycle[((gb.frameCount >> 1) + i) % 6];
-  }
 
-  // Temporary lava effect
-  int tmp = gb.frameCount % 10;
-  if (tmp >= 5) tmp = -tmp + 10;
-  tmp = 0b11111 - tmp;
-  palette[13] = (Color)(tmp << 11);
-}
-*/
 void cycleLavaColor() {
   // Temporary lava effect
   int tmp = gb.frameCount % 10;
@@ -110,19 +69,13 @@ void clearPlayer() {
     for (int y = 0; y < 2; y++) {
       // void drawImage(int16_t x, int16_t y, Image& img, int16_t x2, int16_t y2, int16_t w2, int16_t h2);
       gb.display.drawImage((gridX + x) * 4, (gridY + y) * 4, bg001, (gridX + x) * 4, (gridY + y) * 4, 4, 4);
-      /*
-      background.setFrame((gridY + y) * (160 / 4) + gridX + x);
-      gb.display.drawImage((gridX + x) * 4, (gridY + y) * 4, background);
-      
-      level.drawAt(gridX + x, gridY + y);
-      */
     }
   }
 }
 
 void drawCpu() {
   gb.display.setColor((ColorIndex)14);
-  gb.display.fillRect(1, 1, 16, 6);
+  gb.display.fillRect(0, 0, 17, 7);
     
   gb.display.setCursor(1, 1);
   gb.display.setColor((ColorIndex)15);

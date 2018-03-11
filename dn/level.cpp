@@ -41,27 +41,6 @@ const byte tiles[LEVEL_ROWS][LEVEL_COLS] = {
   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 };
 
-void Level::draw() {
-  for (int row = 0; row < LEVEL_ROWS; row++) {
-    for (int col = 0; col < LEVEL_COLS; col++) {
-      drawAt(col, row);
-    }
-  }
-}
-
-void Level::drawAt(int gridX, int gridY) {
-  if (gridX >= 0 && gridX < LEVEL_COLS && gridY >= 0 && gridY < LEVEL_ROWS && tiles[gridY][gridX] != 0) {
-    if (tiles[gridY][gridX] == 1) {
-      gb.display.setColor((ColorIndex)15);
-      gb.display.fillRect(gridX * TILE_SIZE, gridY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-    }
-    else if (tiles[gridY][gridX] == 2) {
-      gb.display.setColor((ColorIndex)13);
-      gb.display.fillRect(gridX * TILE_SIZE, gridY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-    }
-  }
-}
-
 bool Level::collisionAt(int x, int y, int width, int height) {
   if (tileAt(x, y + height - 1)) return true;
   if (tileAt(x + width - 1, y + height - 1)) return true;

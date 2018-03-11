@@ -6,9 +6,10 @@
 class Player {
   int x, y;
   int velX, velY;
-  bool touchingGround, facingLeft, touchingWall;
+  int wallJumpDelay;
+  bool touchingGround, facingLeft, touchingRightWall, touchingLeftWall;
 
-  void internalUpdate(Level &l);
+  void internalUpdate(Level &l, bool firstUpdate);
 public:
   void resetPosition();
   int getX(); 
