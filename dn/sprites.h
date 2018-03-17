@@ -7,5 +7,6 @@ extern Image background;
 extern Image playerSprite;
 
 extern Image bg001;
+// extern Image test001;
 
 #endif
