@@ -8,9 +8,14 @@
 
 #define velocityInPixelsPerFrame(val) (val << PRECISION >> 1)
 
-void Player::resetPosition() {
-  x = 80 << PRECISION;
+void Player::resetPosition(Level &l) {
+  x = (20 * 4) << PRECISION;
   y = 0;
+
+  if (l.getLevelIndex() == 0) {
+    x = 0;
+    y = (18 * 4) << PRECISION;
+  }
 }
 
 int Player::getX() {
@@ -28,6 +33,13 @@ void Player::draw() {
 void Player::update(Level &level) {
   internalUpdate(level, true);
   internalUpdate(level, false);
+
+  // TODO Replace magic 32 and move this outside of Player
+  if (getY() > 32 * 4) {
+    level.load(level.getLevelIndex() + 1);
+    resetPosition(level);
+    gb.display.drawImage(0, 0, *level.background);
+  }
 }
 
 void Player::internalUpdate(Level &level, bool firstUpdate) {
@@ -74,7 +86,7 @@ void Player::internalUpdate(Level &level, bool firstUpdate) {
   if (level.collisionAt(x >> PRECISION, y >> PRECISION, getWidth(), getHeight())) {
     wallJumpDelay = 0;
     if (level.lavaAt(x >> PRECISION, y >> PRECISION, getWidth(), getHeight())) {
-      resetPosition();
+      resetPosition(level);
       return;
     }
     int backOne = velX > 0 ? velocityInPixelsPerFrame(-1) : velocityInPixelsPerFrame(1);
@@ -93,7 +105,7 @@ void Player::internalUpdate(Level &level, bool firstUpdate) {
   if (level.collisionAt(x >> PRECISION, y >> PRECISION, getWidth(), getHeight())) {
     wallJumpDelay = 0;
     if (level.lavaAt(x >> PRECISION, y >> PRECISION, getWidth(), getHeight())) {
-      resetPosition();
+      resetPosition(level);
       return;
     }
     int backOne = velY > 0 ? velocityInPixelsPerFrame(-1) : velocityInPixelsPerFrame(1);

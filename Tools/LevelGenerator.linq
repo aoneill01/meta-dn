@@ -4,7 +4,10 @@
 
 void Main()
 {
-	GenerateLevelFile(0);
+	for (int level = 0; level <= 2; level++) 
+	{
+		GenerateLevelFile(level);
+	}
 }
 
 void GenerateLevelFile(int level) 
@@ -56,7 +59,7 @@ IEnumerable<byte> GenerateBlockData(Bitmap bmp)
 				yield return 1;
 			}
 			// Deadly
-			else if (argb == Color.Black.ToArgb()) 
+			else if (argb == Color.Red.ToArgb()) 
 			{
 				yield return 2;
 			}
@@ -75,8 +78,8 @@ IEnumerable<byte> GeneratePaletteData(Bitmap bmp, Color[] indices, int paletteIn
 	{
 		Color color = bmp.GetPixel(i * 4, 4 + paletteIndex);
 		int rgb565 = ColorToRgb565(color);
-		yield return (byte)((rgb565 & 0xff00) >> 8);
 		yield return (byte)(rgb565 & 0xff);
+		yield return (byte)((rgb565 & 0xff00) >> 8);
 	}
 }
 

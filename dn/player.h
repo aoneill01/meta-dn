@@ -11,7 +11,7 @@ class Player {
 
   void internalUpdate(Level &l, bool firstUpdate);
 public:
-  void resetPosition();
+  void resetPosition(Level &l);
   int getX(); 
   int getY(); 
   void draw();
