@@ -89,9 +89,10 @@ IEnumerable<byte> GenerateBackgroundData(Bitmap bmp, Color[] indices)
 	{
 		for (int x = 0; x < 160; x += 2) 
 		{
+			// Console.WriteLine($"({x+1}, {y+8})");
 			int high = FindIndex(indices, bmp.GetPixel(x, y + 8));
 			int low = FindIndex(indices, bmp.GetPixel(x + 1, y + 8));
-			// Console.WriteLine($"({x+1}, {y+8})");
+			
 			yield return (byte)(((high & 0xF) << 4) | (low & 0xF));
 		}
 	}

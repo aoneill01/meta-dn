@@ -55,7 +55,7 @@ void loop() {
   player.update(level);
   player.draw();
   
-  recordFrame();
+  // recordFrame();
 }
 
 void clearPlayer() {
