@@ -4,7 +4,7 @@
 
 void Main()
 {
-	for (int level = 0; level <= 2; level++) 
+	for (int level = 0; level <= 4; level++) 
 	{
 		GenerateLevelFile(level);
 	}
